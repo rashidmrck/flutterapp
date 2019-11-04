@@ -5,32 +5,39 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 
 class EditNote extends StatefulWidget {
-  String appbartitle;
+  final String appbartitle;
+  final Note note;
 
 
-  EditNote(this.appbartitle);
+  EditNote(this.appbartitle,this.note);
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-    return _EditNote(appbartitle);
+    return _EditNote(appbartitle,note);
   }
 }
 
 class _EditNote extends State<EditNote> {
 
   String appbartitle;
+  Note note;
 
-  _EditNote(this.appbartitle);
+  DatabaseHelper helper = DatabaseHelper();
+
+  _EditNote(this.appbartitle,this.note);
 
   var _priority = ['High', 'Low'];
   String _selected = 'High';
-  TextEditingController title = TextEditingController();
-  TextEditingController note = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController discriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     TextStyle textstyle = Theme.of(context).textTheme.title;
+
+    titleController.text = note.title;
+    discriptionController.text = note.discription;
 
     // TODO: implement build
     return Scaffold(
@@ -54,10 +61,10 @@ class _EditNote extends State<EditNote> {
                 style: textstyle,
                 onChanged: (select) {
                   setState(() {
-                    this._selected = select;
+                    updatePriorityAsInt(select);
                   });
                 },
-                value: _selected,
+                value: getPriorityAsString(note.priority),
               ),
             ),
           ),
@@ -65,7 +72,7 @@ class _EditNote extends State<EditNote> {
             padding: EdgeInsets.all(10),
             child: TextField(
               style: textstyle,
-              controller: title,
+              controller: titleController,
               decoration: InputDecoration(
                   labelText: "Title",
                   labelStyle: textstyle,
@@ -79,7 +86,7 @@ class _EditNote extends State<EditNote> {
             padding: EdgeInsets.all(10),
             child: TextField(
               style: textstyle,
-              controller: title,
+              controller: discriptionController,
               decoration: InputDecoration(
                   labelText: "Title",
                   labelStyle: textstyle,
@@ -128,5 +135,27 @@ class _EditNote extends State<EditNote> {
   }
   void movetolastscreen(){
     Navigator.pop(context);
+  }
+  void updatePriorityAsInt(String value){
+    switch(value){
+      case 'High':
+        note.priority = 1;
+        break;
+      case 'Low':
+        note.priority = 2;
+        break;
+    }
+  }
+  String getPriorityAsString(int value){
+    String priority;
+    switch(value){
+      case 1:
+        priority = _priority[0];
+        break;
+      case 2:
+        priority = _priority[1];
+        break;
+    }
+    return priority;
   }
 }

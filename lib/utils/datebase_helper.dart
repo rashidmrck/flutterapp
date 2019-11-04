@@ -85,4 +85,17 @@ class DatabaseHelper {
 
     return result;
   }
+
+  Future<List<Note>> getNotList()async{
+    var notMapList = await getnotMapList();
+    int count = notMapList.length;
+
+    List<Note> noteList = List<Note>();
+
+    for(int i =0; i < count; i++){
+      noteList.add(Note.frommapobject(notMapList[i]));
+    }
+    return noteList;
+  }
+
 }
