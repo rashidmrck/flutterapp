@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import './screens/screen_list.dart';
+import 'package:MrCK_NoteApp/screens/screen_list.dart';
 
 main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: "Mr CK App",
       theme: ThemeData(
-        primarySwatch: Colors.deepPurple,
+        primarySwatch: Colors.deepPurple
       ),
-      home: NoteList()
+      debugShowCheckedModeBanner: false,
+      home: NoteList(),
     );
   }
 }

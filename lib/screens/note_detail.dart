@@ -1,161 +1,114 @@
 import 'package:flutter/material.dart';
-import 'package:mrck_app/model/note.dart';
-import 'package:mrck_app/utils/datebase_helper.dart';
-import 'dart:async';
-import 'package:sqflite/sqflite.dart';
+import 'package:flutter/widgets.dart';
 
-class EditNote extends StatefulWidget {
-  final String appbartitle;
-  final Note note;
+class Note_Detail extends StatefulWidget {
+  String title;
 
-
-  EditNote(this.appbartitle,this.note);
+  Note_Detail(this.title);
 
   @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _EditNote(appbartitle,note);
-  }
+  _Note_DetailState createState() => _Note_DetailState(title);
 }
 
-class _EditNote extends State<EditNote> {
+class _Note_DetailState extends State<Note_Detail> {
+  var item = ['Low', 'High'];
 
-  String appbartitle;
-  Note note;
+  String title;
+  String defaultselect = 'Low';
 
-  DatabaseHelper helper = DatabaseHelper();
-
-  _EditNote(this.appbartitle,this.note);
-
-  var _priority = ['High', 'Low'];
-  String _selected = 'High';
-  TextEditingController titleController = TextEditingController();
-  TextEditingController discriptionController = TextEditingController();
+  _Note_DetailState(this.title);
 
   @override
   Widget build(BuildContext context) {
-    TextStyle textstyle = Theme.of(context).textTheme.title;
-
-    titleController.text = note.title;
-    discriptionController.text = note.discription;
-
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(icon: Icon(Icons.arrow_back),
-            onPressed: (){
-              movetolastscreen();
-            }),
-        title: Text(appbartitle),
+        title: Text(this.title),
       ),
       body: ListView(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(top: 20, left: 10, right: 10),
-            child: ListTile(
-              title: DropdownButton(
-                items: _priority.map((String items) {
-                  return DropdownMenuItem<String>(
-                      value: items, child: Text(items));
-                }).toList(),
-                style: textstyle,
-                onChanged: (select) {
-                  setState(() {
-                    updatePriorityAsInt(select);
-                  });
-                },
-                value: getPriorityAsString(note.priority),
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: 300,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ButtonTheme(
+                  alignedDropdown: true,
+                  child: DropdownButton(
+                    items: item.map((String itemlist) {
+                      return DropdownMenuItem<String>(
+                        value: itemlist,
+                        child: Text(itemlist),
+                      );
+                    }).toList(),
+                    onChanged: (String selected) {
+                      setState(() {
+                        this.defaultselect = selected;
+                      });
+                    },
+                    value: defaultselect,
+                  ),
+                ),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
-              style: textstyle,
-              controller: titleController,
               decoration: InputDecoration(
-                  labelText: "Title",
-                  labelStyle: textstyle,
-                  hintText: "Enter Title",
+                  labelText: 'Title',
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              onChanged: (value) {},
+                      borderRadius: BorderRadius.circular(10.0))),
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8.0),
             child: TextField(
-              style: textstyle,
-              controller: discriptionController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              textAlignVertical: TextAlignVertical(y: -0.92),
               decoration: InputDecoration(
-                  labelText: "Title",
-                  labelStyle: textstyle,
-                  hintText: "Enter Title",
+                  labelText: 'Description',
+                  alignLabelWithHint: true,
+                  contentPadding: EdgeInsets.only(bottom: 300, left: 5.0),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              onChanged: (value) {},
+                      borderRadius: BorderRadius.circular(10.0))),
             ),
           ),
-          Padding(
-            padding: EdgeInsets.only(top: 15, bottom: 15),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.only(left: 10, right: 2),
-                  child: SizedBox(
+          Row(
+            children: <Widget>[
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
                     height: 45,
                     child: RaisedButton(
-                      color: Theme.of(context).primaryColorDark,
-                      textColor: Theme.of(context).primaryColorLight,
-                      child: Text("Save"),
-                      onPressed: () {},
-                    ),
-                  ),
-                )),
-                Expanded(
-                    child: Padding(
-                  padding: EdgeInsets.only(right: 10, left: 2),
-                  child: SizedBox(
+                        color: Colors.deepPurple,
+                        child: Text(
+                          'Save',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        onPressed: () {})),
+              )),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
                     height: 45,
                     child: RaisedButton(
-                      color: Theme.of(context).primaryColorDark,
-                      textColor: Theme.of(context).primaryColorLight,
-                      child: Text("Delete"),
-                      onPressed: () {},
-                    ),
-                  ),
-                )),
-              ],
-            ),
-          )
+                        child: Text(
+                          'Delete',
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                        color: Colors.deepPurple,
+                        onPressed: () {})),
+              )),
+            ],
+          ),
         ],
       ),
     );
-  }
-  void movetolastscreen(){
-    Navigator.pop(context);
-  }
-  void updatePriorityAsInt(String value){
-    switch(value){
-      case 'High':
-        note.priority = 1;
-        break;
-      case 'Low':
-        note.priority = 2;
-        break;
-    }
-  }
-  String getPriorityAsString(int value){
-    String priority;
-    switch(value){
-      case 1:
-        priority = _priority[0];
-        break;
-      case 2:
-        priority = _priority[1];
-        break;
-    }
-    return priority;
   }
 }

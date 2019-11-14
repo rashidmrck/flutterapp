@@ -1,51 +1,52 @@
-class Note {
+class Note{
   int _id;
   String _title;
-  String _discription;
+  String _description;
   String _date;
   int _priority;
 
-  Note(this._title, this._date, this._priority, [this._discription]);
 
-  Note.withid(this._id, this._title, this._date, this._priority,
-      [this._discription]);
+  Note(this._title, this._date, this._priority, [this._description]);
 
-  int get priority => _priority;
+  Note.name(this._id, this._title, this._description,this._priority, this._date);
+
 
   String get date => _date;
 
-  String get discription => _discription;
+  String get description => _description;
 
   String get title => _title;
 
   int get id => _id;
 
-  set priority(int value) {
-    if (value == 1 && value == 2) {
-      _priority = value;
-    }
-  }
+  int get priority => _priority;
 
   set date(String value) {
     _date = value;
   }
 
-  set discription(String value) {
-    _discription = value;
+  set description(String value) {
+    _description = value;
   }
 
   set title(String value) {
     _title = value;
   }
 
-  Map<String, dynamic> toMap() {
-    var map = Map<String, dynamic>();
+  set priority(int value) {
+    if(value == 1 && value == 2){
+      _priority = value;
+    }
+  }
 
-    if (id != null) {
+  Map<String,dynamic> tomap(){
+
+    var map = Map<String,dynamic>();
+    if(id != null) {
       map['id'] = _id;
     }
     map['title'] = _title;
-    map['discription'] = _discription;
+    map['description'] = _description;
     map['priority'] = _priority;
     map['date'] = _date;
 
@@ -54,10 +55,9 @@ class Note {
 
   Note.frommapobject(Map<String,dynamic> map){
     this._id = map['id'];
-    this._date = map['date'];
-    this._priority = map['priority'];
-    this._discription = map['discription'];
     this._title = map['title'];
-
+    this._description = map['description'];
+    this._priority = map['priority'];
+    this._date = map['date'];
   }
 }
