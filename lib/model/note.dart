@@ -53,7 +53,7 @@ class Note{
     return map;
   }
 
-  Note.frommapobject(Map<String,dynamic> map){
+  Note.fromMapObject(Map<String,dynamic> map){
     this._id = map['id'];
     this._title = map['title'];
     this._description = map['description'];
