@@ -2,7 +2,6 @@ import 'package:MrCK_NoteApp/screens/note_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:MrCK_NoteApp/utils/database_helper.dart';
 import 'package:MrCK_NoteApp/model/note.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NoteList extends StatefulWidget {
@@ -46,7 +45,7 @@ class _NoteListState extends State<NoteList> {
               },
               leading: CircleAvatar(
                 backgroundColor:
-                    priorityColor(this.noteList[position].priority),
+                priorityColor(this.noteList[position].priority),
                 child: priorityIcon(this.noteList[position].priority),
               ),
               title: Text(this.noteList[position].title),
@@ -70,6 +69,7 @@ class _NoteListState extends State<NoteList> {
       case 2:
         return Colors.yellow;
         break;
+
       default:
         return Colors.yellow;
     }
@@ -83,6 +83,7 @@ class _NoteListState extends State<NoteList> {
       case 2:
         return Icon(Icons.keyboard_arrow_right);
         break;
+
       default:
         return Icon(Icons.keyboard_arrow_right);
     }

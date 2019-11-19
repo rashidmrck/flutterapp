@@ -16,7 +16,7 @@ class DatabaseHelper{
   String noteTable = 'noteTable';
   String colId = 'Id';
   String colTitle = 'Title';
-  String colDiscription = 'Discription';
+  String colDescription = 'Description';
   String colPriority = 'Priority';
   String colDate = 'Date';
 
@@ -24,7 +24,7 @@ class DatabaseHelper{
   factory DatabaseHelper(){
 
     if(_databaseHelper == null){
-      DatabaseHelper._createInstance();
+      _databaseHelper = DatabaseHelper._createInstance();
     }
 
     return _databaseHelper;
@@ -41,35 +41,36 @@ class DatabaseHelper{
 
   Future<Database> initializeDatabase()async{
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path+'note1.db';
+    String path = directory.path+'note.db';
 
-    var notedDatabase  = await openDatabase(path,version: 1,onCreate: _createTable);
+    var notedDatabase  = await openDatabase(path,version: 1,onCreate: _createDb);
     return notedDatabase;
   }
 
-  void _createTable(Database db, int newVersion)async{
-    await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDiscription TEXT, $colPriority INTEGER, $colDate TEXT)');
+  void _createDb(Database db, int newVersion) async {
 
+    await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, '
+        '$colDescription TEXT, $colPriority INTEGER, $colDate TEXT)');
   }
-   Future<List<Map<String,dynamic>>> getNoteMapList()async{
+  Future<List<Map<String, dynamic>>> getNoteMapList() async {
     Database db = await this.database;
-    var result = db.query(noteTable,orderBy: '$colPriority ACS');
+    var result = await db.query(noteTable, orderBy: '$colPriority ASC');
     return result;
   }
   Future<int> insertNote(Note note)async{
     Database db = await this.database;
-    var result = db.insert(noteTable, note.tomap());
+    var result = await db.insert(noteTable, note.toMap());
     return result;
   }
 
   Future<int> updateNote(Note note)async{
     Database db = await this.database;
-    var result = db.update(noteTable, note.tomap(),where: '$colId = ?',whereArgs: [note.id]);
+    var result = await db.update(noteTable, note.toMap(),where: '$colId = ?',whereArgs: [note.id]);
     return result;
   }
   Future<int> deleteNote(int id)async{
     Database db = await this.database;
-    var result = db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
+    var result = await db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
     return result;
   }
   Future<int> getcount()async{

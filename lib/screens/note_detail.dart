@@ -15,7 +15,7 @@ class Note_Detail extends StatefulWidget {
 }
 
 class _Note_DetailState extends State<Note_Detail> {
-  var item = ['Low', 'High'];
+  var item = ['High','Low'];
 
   final String title;
   final Note note;
@@ -99,36 +99,36 @@ class _Note_DetailState extends State<Note_Detail> {
             children: <Widget>[
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                    height: 45,
-                    child: RaisedButton(
-                        color: Colors.deepPurple,
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        onPressed: () {
-                          _save();
-                        })),
-              )),
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                        height: 45,
+                        child: RaisedButton(
+                            color: Colors.deepPurple,
+                            child: Text(
+                              'Save',
+                              style: TextStyle(
+                                  color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () {
+                              _save();
+                            })),
+                  )),
               Expanded(
                   child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                    height: 45,
-                    child: RaisedButton(
-                        child: Text(
-                          'Delete',
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        color: Colors.deepPurple,
-                        onPressed: () {
-                          _delete();
-                        })),
-              )),
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                        height: 45,
+                        child: RaisedButton(
+                            child: Text(
+                              'Delete',
+                              style: TextStyle(
+                                  color: Colors.white, fontWeight: FontWeight.bold),
+                            ),
+                            color: Colors.deepPurple,
+                            onPressed: () {
+                              _delete();
+                            })),
+                  )),
             ],
           ),
         ],
@@ -158,10 +158,10 @@ class _Note_DetailState extends State<Note_Detail> {
     return priority;
   }
   void updateTitle(){
-    titleController.text = note.title;
+    note.title= titleController.text;
   }
   void updateDescription(){
-    descriptionController.text = note.description;
+    note.description = descriptionController.text;
   }
   void _save()async{
     moveToLastScreen();
