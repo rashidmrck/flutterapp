@@ -4,22 +4,20 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
 
-
-
-
 class DatabaseHelper{
+
   static DatabaseHelper _databaseHelper;
   static Database _database;
 
+  String noteTable = 'note_table';
+  String colId = 'id';
+  String colTitle = 'title';
+  String colDescription = 'description';
+  String colPriority = 'priority';
+  String colDate = 'date';
+
+
   DatabaseHelper._createInstance();
-
-  String noteTable = 'noteTable';
-  String colId = 'Id';
-  String colTitle = 'Title';
-  String colDescription = 'Description';
-  String colPriority = 'Priority';
-  String colDate = 'Date';
-
 
   factory DatabaseHelper(){
 
@@ -49,8 +47,7 @@ class DatabaseHelper{
 
   void _createDb(Database db, int newVersion) async {
 
-    await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, '
-        '$colDescription TEXT, $colPriority INTEGER, $colDate TEXT)');
+    await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDescription TEXT, $colPriority INTEGER, $colDate TEXT)');
   }
   Future<List<Map<String, dynamic>>> getNoteMapList() async {
     Database db = await this.database;
