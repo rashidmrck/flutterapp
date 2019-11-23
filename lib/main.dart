@@ -1,3 +1,4 @@
+import 'package:MrCK_NoteApp/screens/test.dart';
 import 'package:flutter/material.dart';
 import 'package:MrCK_NoteApp/screens/screen_list.dart';
 
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.deepPurple
       ),
       debugShowCheckedModeBanner: false,
-      home: NoteList(),
+      home: Test(),
     );
   }
 }

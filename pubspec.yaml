@@ -27,6 +27,8 @@ dependencies:
   sqflite: any
   path_provider: any
   intl: any
+  flutter_speed_dial: any
+  flutter_arc_speed_dial: any
 
 
 dev_dependencies:
